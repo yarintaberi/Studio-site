@@ -1,0 +1,65 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = 'שמלות ערב וכלה בתפירה אישית.' } = Astro.props;
+const fullTitle = title ? `${title} | Yarin Taberi` : 'Yarin Taberi | Evening & Bridal Couture';
+const base = import.meta.env.BASE_URL;
+const href = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{fullTitle}</title>
+  <meta name="description" content={description}>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href={href('images/logo.svg')}>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italiana&family=Bellefair&family=Assistant:wght@300;400;500&display=swap">
+</head>
+<body>
+  <header class="site-header" id="header">
+    <button class="menu-btn" id="menuOpen" type="button" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="logo" href={href('/')} aria-label="Yarin Taberi, לדף הבית"><img src={href('images/logo.svg')} alt="Yarin Taberi"></a>
+    <a class="book-link" href={href('appointment/')}>קביעת פגישה</a>
+  </header>
+
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="תפריט" hidden>
+    <div class="menu-top">
+      <button class="menu-close" id="menuClose" type="button" aria-label="סגירת תפריט">×</button>
+      <img src={href('images/logo.svg')} alt="Yarin Taberi">
+      <span></span>
+    </div>
+    <nav aria-label="ראשי">
+      <a href={href('collections/')}>הקולקציה<small>COLLECTION</small></a>
+      <a href={href('bespoke/')}>תפירה אישית<small>BESPOKE</small></a>
+      <a href={href('atelier/')}>האטלייה<small>THE ATELIER</small></a>
+      <a href={href('faq/')}>שאלות נפוצות<small>FAQ</small></a>
+      <a href={href('appointment/')}>קביעת פגישה<small>APPOINTMENTS</small></a>
+    </nav>
+    <div class="menu-foot"><a href="#">INSTAGRAM</a><a href="#">WHATSAPP</a><a href={href('en/')}>ENGLISH</a></div>
+  </div>
+
+  <main id="top">
+    <slot />
+  </main>
+
+  <footer>
+    <img src={href('images/logo.svg')} alt="Yarin Taberi">
+    <nav aria-label="תחתון">
+      <a href="#">INSTAGRAM</a><a href="#">WHATSAPP</a><a href={href('en/')}>ENGLISH</a>
+      <a href={href('accessibility/')}>הצהרת נגישות</a><a href={href('privacy/')}>מדיניות פרטיות</a>
+    </nav>
+  </footer>
+
+  <script src="../scripts/site.js"></script>
+</body>
+</html>

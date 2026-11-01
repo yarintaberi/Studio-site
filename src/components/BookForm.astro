@@ -1,0 +1,18 @@
+---
+// Appointment request. Not connected to any service yet; site.js only validates it.
+---
+<section class="book" id="book">
+  <div class="book-inner">
+    <p class="eyebrow" data-reveal>APPOINTMENTS</p>
+    <h2 data-reveal>פגישה פרטית באטלייה</h2>
+    <p>הפגישות באטלייה בתיאום מראש בלבד. השאירי פרטים ונחזור אלייך לתיאום.</p>
+    <form class="form" id="bookForm" novalidate>
+      <label class="field" for="f-name">שם מלא<input id="f-name" name="name" type="text" autocomplete="name" required></label>
+      <label class="field" for="f-phone">טלפון<input id="f-phone" name="phone" type="tel" autocomplete="tel" required></label>
+      <label class="field" for="f-date">תאריך האירוע<input id="f-date" name="date" type="date"></label>
+      <label class="field" for="f-type">מה את מחפשת<select id="f-type" name="type"><option>שמלת כלה</option><option>שמלת ערב</option><option>עוד לא יודעת</option></select></label>
+      <button type="submit">שליחה</button>
+      <p class="form-note" id="formNote" aria-live="polite"></p>
+    </form>
+  </div>
+</section>

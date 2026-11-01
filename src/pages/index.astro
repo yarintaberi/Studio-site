@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import BookForm from '../components/BookForm.astro';
+---
+<Base>
+
+  <section class="hero">
+    <div class="hero-media"><img src="/images/front.jpg" alt="דוגמנית בשמלת ערב שחורה רקומה חרוזים, עומדת באור חלון"></div>
+    <div class="hero-caption">
+      <p>EVENING &amp; BRIDAL COUTURE</p>
+      <a href="#collections">לגלות את הקולקציה</a>
+    </div>
+  </section>
+
+  <section class="band">
+    <p class="eyebrow" data-reveal>THE ATELIER</p>
+    <h1 class="lead" data-reveal>שמלות ערב וכלה בתפירה אישית, נבנות על הגוף שלך.</h1>
+    <p class="body" data-reveal>כל שמלה מתחילה בשיחה ונגמרת במדידה האחרונה. בדים נבחרים, רקמות בעבודת יד וגזרה שנבנית במיוחד עבורך, כך שאין שתי שמלות זהות.</p>
+  </section>
+
+  <section class="tiles" id="collections" aria-label="קולקציות">
+    <a class="tile" data-reveal="mask" href="/collections/">
+      <img src="/images/bodice.jpg" alt="מחוך שחור מובנה">
+      <div class="tile-label"><span>Bridal</span><span>כלה</span></div>
+    </a>
+    <a class="tile" data-reveal="mask" href="/collections/">
+      <img src="/images/back.jpg" alt="שמלת ערב עם גב חשוף">
+      <div class="tile-label"><span>Evening</span><span>ערב</span></div>
+    </a>
+    <a class="tile" data-reveal="mask" href="/bespoke/">
+      <img src="/images/bloro.jpg" alt="שמלת סטרפלס עם חצאית שקופה רקומה">
+      <div class="tile-label"><span>Bespoke</span><span>תפירה אישית</span></div>
+    </a>
+  </section>
+
+  <section class="band">
+    <p class="eyebrow" data-reveal>COLLECTION 01</p>
+    <h2 class="lead" data-reveal>[שם הקולקציה]</h2>
+    <p class="body" data-reveal>[שתיים-שלוש שורות על ההשראה לקולקציה: תקופה, מקום, תחושה. למשל האור שנכנס מחלון קשתי אל קיר טיח ישן.]</p>
+  </section>
+
+  <section class="wide" data-parallax>
+    <img src="/images/back.jpg" alt="גב חשוף בשמלת הולטר רקומה">
+    <div class="wide-note">
+      <p>The Open Back</p>
+      <p>רקמת חרוזים שחורה על טול בגוון עור, נבנית שורה אחר שורה.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <p class="eyebrow" data-reveal>MADE BY HAND</p>
+    <h2 class="lead" data-reveal>הפרטים הקטנים הם השמלה.</h2>
+  </section>
+
+  <section class="details" aria-label="פרטי עבודת יד">
+    <figure data-reveal="mask"><img src="/images/beading.jpg" alt="רקמת חרוזים בחזית השמלה"><figcaption>Beading</figcaption></figure>
+    <figure data-reveal="mask"><img src="/images/back-detail.jpg" alt="שולי תחרה בגב השמלה"><figcaption>Lace edge</figcaption></figure>
+    <figure data-reveal="mask"><img src="/images/skirt.jpg" alt="חצאית טול עם פרחים תפורים"><figcaption>Tulle &amp; florals</figcaption></figure>
+    <figure data-reveal="mask"><img src="/images/profile.jpg" alt="צווארון הולטר מתחרה"><figcaption>Halter neck</figcaption></figure>
+  </section>
+
+  <section class="process" id="process">
+    <div class="process-head">
+      <p class="eyebrow" data-reveal>BESPOKE</p>
+      <h2 data-reveal>הדרך לשמלה שלך</h2>
+    </div>
+    <ol class="steps">
+      <li data-reveal><p class="num">I</p><h3>פגישת היכרות</h3><p>נכיר, נדבר על האירוע, על הסגנון שלך ועל מה שאת מדמיינת.</p></li>
+      <li data-reveal><p class="num">II</p><h3>סקיצה ובדים</h3><p>עיצוב אישי, בחירת בדים, תחרות ורקמות מתוך הספרייה של האטלייה.</p></li>
+      <li data-reveal><p class="num">III</p><h3>מדידות</h3><p>השמלה נבנית ומתדייקת על הגוף שלך, מדידה אחר מדידה.</p></li>
+      <li data-reveal><p class="num">IV</p><h3>מסירה</h3><p>השמלה מוכנה, מגוהצת וארוזה, ואת מוכנה לרגע שלך.</p></li>
+    </ol>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-media" data-parallax><img src="/images/window.jpg" alt="חלון קשתי ואור על קיר טיח באטלייה"></div>
+    <div class="about-text">
+      <p class="eyebrow" style="margin:0">THE DESIGNER</p>
+      <h2 data-reveal>האטלייה</h2>
+      <p>[פסקה עליך: מאיפה באת, איפה למדת, מה מוביל אותך בעיצוב ולמה בחרת בתפירה אישית.]</p>
+      <p class="sign">Yarin Taberi</p>
+    </div>
+  </section>
+
+  <section class="brides" aria-label="הכלות שלנו">
+    <p class="eyebrow" data-reveal>OUR BRIDES</p>
+    <blockquote data-reveal>[ציטוט אמיתי של כלה או לקוחה, משפט או שניים]</blockquote>
+    <cite data-reveal>[שם הכלה]</cite>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="faq-inner">
+      <p class="eyebrow" data-reveal style="text-align:center">FAQ</p>
+      <h2 data-reveal>שאלות נפוצות</h2>
+      <details data-reveal><summary>כמה עולה שמלה בתפירה אישית?</summary><p>המחיר תלוי בבדים, בעבודת היד ובמורכבות העיצוב, ונקבע בפגישת ההיכרות.</p></details>
+      <details data-reveal><summary>אני גרה רחוק או בחו״ל. אפשר?</summary><p>[איך עובדים עם כלות מרחוק: מדידות, שיחות וידאו, משלוח]</p></details>
+      <details data-reveal><summary>מה אם הגוף שלי משתנה עד האירוע?</summary><p>השמלה נבנית ומתדייקת לאורך המדידות, כך שהיא מותאמת לגוף שלך בזמן האירוע.</p></details>
+    </div>
+  </section>
+
+  <BookForm />
+</Base>

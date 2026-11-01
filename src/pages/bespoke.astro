@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import BookForm from '../components/BookForm.astro';
+---
+<Base title="תפירה אישית">
+  <section class="page-head">
+    <p class="eyebrow" data-reveal>BESPOKE</p>
+    <h1 data-reveal>שמלה שנבנית סביבך</h1>
+    <p data-reveal>כל שמלה מתחילה בשיחה ונגמרת במדידה האחרונה. בדים נבחרים, רקמות בעבודת יד וגזרה שנבנית במיוחד עבורך.</p>
+  </section>
+  <section class="wide" data-parallax>
+    <img src="/images/back.jpg" alt="גב חשוף בשמלת הולטר רקומה">
+  </section>
+  <section class="process">
+    <div class="process-head">
+      <h2 data-reveal>הדרך לשמלה שלך</h2>
+    </div>
+    <ol class="steps">
+      <li data-reveal><p class="num">I</p><h3>פגישת היכרות</h3><p>נכיר, נדבר על האירוע, על הסגנון שלך ועל מה שאת מדמיינת.</p></li>
+      <li data-reveal><p class="num">II</p><h3>סקיצה ובדים</h3><p>עיצוב אישי, בחירת בדים, תחרות ורקמות.</p></li>
+      <li data-reveal><p class="num">III</p><h3>מדידות</h3><p>השמלה נבנית ומתדייקת על הגוף שלך, מדידה אחר מדידה.</p></li>
+      <li data-reveal><p class="num">IV</p><h3>מסירה</h3><p>השמלה מוכנה, ואת מוכנה לרגע שלך.</p></li>
+    </ol>
+  </section>
+  <BookForm />
+</Base>

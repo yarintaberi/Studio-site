@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const dresses = (await getCollection('dresses')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="הקולקציה">
+  <section class="page-head">
+    <p class="eyebrow" data-reveal>COLLECTION</p>
+    <h1 data-reveal>הקולקציה</h1>
+    <p data-reveal>[משפט קצר על הקולקציה]</p>
+  </section>
+  <section class="grid" aria-label="שמלות">
+    {dresses.map((d) => (
+      <a class="card" href={`/dresses/${d.id}/`} data-reveal="mask">
+        <div class="ph"><img src={d.data.cover} alt={d.data.details ?? d.data.nameHe} loading="lazy"></div>
+        <p><span>{d.data.name}</span><span>{d.data.category === 'bridal' ? 'כלה' : 'ערב'}</span></p>
+      </a>
+    ))}
+  </section>
+</Base>

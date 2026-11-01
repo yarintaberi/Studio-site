@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="שאלות נפוצות">
+  <div style="height:calc(60px + env(safe-area-inset-top,0px))"></div>
+  <section class="faq" id="faq">
+    <div class="faq-inner">
+      <p class="eyebrow" data-reveal style="text-align:center">FAQ</p>
+      <h1 data-reveal style="font-family:var(--hebrew);font-size:clamp(30px,3.2vw,44px);text-align:center;margin-bottom:48px">שאלות נפוצות</h1>
+      <details data-reveal><summary>כמה עולה שמלה בתפירה אישית?</summary><p>המחיר תלוי בבדים, בעבודת היד ובמורכבות העיצוב, ונקבע בפגישת ההיכרות.</p></details>
+      <details data-reveal><summary>אני גרה רחוק או בחו״ל. אפשר?</summary><p>[איך עובדים עם כלות מרחוק: מדידות, שיחות וידאו, משלוח]</p></details>
+      <details data-reveal><summary>מה אם הגוף שלי משתנה עד האירוע?</summary><p>השמלה נבנית ומתדייקת לאורך המדידות, כך שהיא מותאמת לגוף שלך בזמן האירוע.</p></details>
+    </div>
+  </section>
+</Base>

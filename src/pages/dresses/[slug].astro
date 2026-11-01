@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const dresses = await getCollection('dresses');
+  return dresses.map((d) => ({ params: { slug: d.id }, props: { dress: d } }));
+}
+const { dress } = Astro.props;
+const { Content } = await render(dress);
+const d = dress.data;
+---
+<Base title={d.name}>
+  <section class="dress">
+    <div class="dress-photos">
+      {d.photos.map((src, i) => (
+        <img src={src} alt={`${d.nameHe}, תמונה ${i + 1}`} loading={i === 0 ? 'eager' : 'lazy'} data-reveal={i === 0 ? undefined : 'mask'}>
+      ))}
+    </div>
+    <div class="dress-info">
+      <p class="eyebrow" style="margin:0">{d.category === 'bridal' ? 'BRIDAL' : 'EVENING'}</p>
+      <h1>{d.name}</h1>
+      <p class="he">{d.nameHe}</p>
+      <div><Content /></div>
+      <dl>
+        {d.fabric && <><dt>בד</dt><dd>{d.fabric}</dd></>}
+        {d.details && <><dt>פרטים</dt><dd>{d.details}</dd></>}
+      </dl>
+      <a class="btn" href="/appointment/">לקביעת פגישה</a>
+    </div>
+  </section>
+</Base>
