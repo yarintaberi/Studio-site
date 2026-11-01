@@ -53,16 +53,51 @@
     document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
   }
 
+  // drawer: un-hide, then add .open on the next frame so it slides in; reverse on close
+  var closeTimer;
   function setMenu(open) {
-    menu.hidden = !open;
+    clearTimeout(closeTimer);
+    if (open) {
+      menu.hidden = false;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { menu.classList.add('open'); }); });
+    } else {
+      menu.classList.remove('open');
+      closeTimer = setTimeout(function () { menu.hidden = true; }, calm ? 0 : 600);
+    }
     openBtn.setAttribute('aria-expanded', String(open));
     document.body.style.overflow = open ? 'hidden' : '';
     (open ? closeBtn : openBtn).focus();
   }
   openBtn.addEventListener('click', function () { setMenu(true); });
   closeBtn.addEventListener('click', function () { setMenu(false); });
-  menu.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+  menu.querySelector('[data-close]').addEventListener('click', function () { setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) setMenu(false); });
   menu.querySelectorAll('nav a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+
+  // hero slideshow: crossfade every 6s, with a pause button; still under reduced motion
+  var slides = [].slice.call(document.querySelectorAll('#heroSlides .slide'));
+  var pauseBtn = document.getElementById('heroPause');
+  if (slides.length > 1 && !calm) {
+    var cur = 0, timer;
+    var next = function () {
+      slides[cur].classList.remove('on');
+      cur = (cur + 1) % slides.length;
+      var s = slides[cur];
+      s.style.animation = 'none'; s.offsetHeight; s.style.animation = '';
+      s.classList.add('on');
+    };
+    var play = function () { timer = setInterval(next, 6000); };
+    play();
+    pauseBtn.addEventListener('click', function () {
+      var paused = pauseBtn.getAttribute('aria-pressed') === 'true';
+      if (paused) play(); else clearInterval(timer);
+      pauseBtn.setAttribute('aria-pressed', String(!paused));
+      pauseBtn.setAttribute('aria-label', paused ? 'עצירת החלפת התמונות' : 'המשך החלפת התמונות');
+      hero.classList.toggle('paused', !paused);
+    });
+  } else if (pauseBtn) {
+    pauseBtn.hidden = true;
+  }
 
   // the form has no backend yet; it only validates
   var form = document.getElementById('bookForm');

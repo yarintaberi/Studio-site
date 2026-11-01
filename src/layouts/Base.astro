@@ -9,6 +9,8 @@ const { title, description = 'שמלות ערב וכלה בתפירה אישית
 const fullTitle = title ? `${title} | Yarin Taberi` : 'Yarin Taberi | Evening & Bridal Couture';
 const base = import.meta.env.BASE_URL;
 const href = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const instagram = 'https://www.instagram.com/taberistudio/';
+const whatsapp = 'https://wa.me/972522939346';
 ---
 <!doctype html>
 <html lang="he" dir="rtl">
@@ -32,20 +34,23 @@ const href = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
     <a class="book-link" href={href('appointment/')}>קביעת פגישה</a>
   </header>
 
-  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="תפריט" hidden>
-    <div class="menu-top">
-      <button class="menu-close" id="menuClose" type="button" aria-label="סגירת תפריט">×</button>
-      <img src={href('images/logo.svg')} alt="Yarin Taberi">
-      <span></span>
-    </div>
-    <nav aria-label="ראשי">
-      <a href={href('collections/')}>הקולקציה<small>COLLECTION</small></a>
-      <a href={href('bespoke/')}>תפירה אישית<small>BESPOKE</small></a>
-      <a href={href('atelier/')}>האטלייה<small>THE ATELIER</small></a>
-      <a href={href('faq/')}>שאלות נפוצות<small>FAQ</small></a>
-      <a href={href('appointment/')}>קביעת פגישה<small>APPOINTMENTS</small></a>
-    </nav>
-    <div class="menu-foot"><a href="#">INSTAGRAM</a><a href="#">WHATSAPP</a><a href={href('en/')}>ENGLISH</a></div>
+  <div class="menu" id="menu" hidden>
+    <div class="menu-backdrop" data-close></div>
+    <aside class="menu-panel" role="dialog" aria-modal="true" aria-label="תפריט">
+      <button class="menu-close" id="menuClose" type="button" aria-label="סגירת תפריט"><span></span><span></span></button>
+      <nav aria-label="ראשי">
+        <a href={href('/')}>דף הבית<small>HOME</small></a>
+        <a href={href('collections/')}>הקולקציה<small>COLLECTION</small></a>
+        <a href={href('bespoke/')}>תפירה אישית<small>BESPOKE</small></a>
+        <a href={href('atelier/')}>האטלייה<small>THE ATELIER</small></a>
+        <a href={href('appointment/')}>קביעת פגישה<small>APPOINTMENTS</small></a>
+      </nav>
+      <div class="menu-foot">
+        <a href={instagram} target="_blank" rel="noopener">INSTAGRAM</a>
+        <a href={whatsapp} target="_blank" rel="noopener">WHATSAPP</a>
+        <a href={href('en/')}>ENGLISH</a>
+      </div>
+    </aside>
   </div>
 
   <main id="top">
@@ -53,11 +58,19 @@ const href = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
   </main>
 
   <footer>
-    <img src={href('images/logo.svg')} alt="Yarin Taberi">
-    <nav aria-label="תחתון">
-      <a href="#">INSTAGRAM</a><a href="#">WHATSAPP</a><a href={href('en/')}>ENGLISH</a>
-      <a href={href('accessibility/')}>הצהרת נגישות</a><a href={href('privacy/')}>מדיניות פרטיות</a>
-    </nav>
+    <div class="foot-main">
+      <img src={href('images/logo.svg')} alt="Yarin Taberi">
+      <nav aria-label="רשתות">
+        <a href={instagram} target="_blank" rel="noopener">INSTAGRAM</a>
+        <a href={whatsapp} target="_blank" rel="noopener">WHATSAPP</a>
+        <a href={href('en/')}>ENGLISH</a>
+      </nav>
+    </div>
+    <div class="foot-legal">
+      <span>© {new Date().getFullYear()} Yarin Taberi</span>
+      <a href={href('accessibility/')}>הצהרת נגישות</a>
+      <a href={href('privacy/')}>מדיניות פרטיות</a>
+    </div>
   </footer>
 
   <script src="../scripts/site.js"></script>

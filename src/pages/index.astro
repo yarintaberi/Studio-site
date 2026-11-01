@@ -5,7 +5,14 @@ import BookForm from '../components/BookForm.astro';
 <Base>
 
   <section class="hero">
-    <div class="hero-media"><img src="/images/front.jpg" alt="דוגמנית בשמלת ערב שחורה רקומה חרוזים, עומדת באור חלון"></div>
+    <!-- slides crossfade; a <video> can replace any slide's <img> later -->
+    <div class="hero-media" id="heroSlides">
+      <div class="slide on"><img src="/images/front.jpg" alt="שמלת ערב שחורה רקומה חרוזים, באור חלון"></div>
+      <div class="slide"><img src="/images/bloro.jpg" alt="שמלת סטרפלס עם חצאית שקופה רקומה" loading="lazy"></div>
+      <div class="slide"><img src="/images/coral.jpg" alt="שמלת ערב בגוון קורל" loading="lazy"></div>
+      <div class="slide"><img src="/images/back.jpg" alt="גב חשוף בשמלת הולטר רקומה" loading="lazy"></div>
+    </div>
+    <button class="hero-pause" id="heroPause" type="button" aria-label="עצירת החלפת התמונות" aria-pressed="false"><span></span></button>
     <div class="hero-caption">
       <p>EVENING &amp; BRIDAL COUTURE</p>
       <a href="#collections">לגלות את הקולקציה</a>
@@ -88,15 +95,6 @@ import BookForm from '../components/BookForm.astro';
     <cite data-reveal>[שם הכלה]</cite>
   </section>
 
-  <section class="faq" id="faq">
-    <div class="faq-inner">
-      <p class="eyebrow" data-reveal style="text-align:center">FAQ</p>
-      <h2 data-reveal>שאלות נפוצות</h2>
-      <details data-reveal><summary>כמה עולה שמלה בתפירה אישית?</summary><p>המחיר תלוי בבדים, בעבודת היד ובמורכבות העיצוב, ונקבע בפגישת ההיכרות.</p></details>
-      <details data-reveal><summary>אני גרה רחוק או בחו״ל. אפשר?</summary><p>[איך עובדים עם כלות מרחוק: מדידות, שיחות וידאו, משלוח]</p></details>
-      <details data-reveal><summary>מה אם הגוף שלי משתנה עד האירוע?</summary><p>השמלה נבנית ומתדייקת לאורך המדידות, כך שהיא מותאמת לגוף שלך בזמן האירוע.</p></details>
-    </div>
-  </section>
 
   <BookForm />
 </Base>
