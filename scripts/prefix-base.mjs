@@ -15,7 +15,11 @@ function walk(dir) {
     if (statSync(p).isDirectory()) walk(p);
     else if (p.endsWith('.html')) {
       const html = readFileSync(p, 'utf8');
-      writeFileSync(p, html.replace(pattern, `$1="${base}/`));
+      const out = html
+        .replace(pattern, `$1="${base}/`)
+        // srcset lists several root paths: prefix each one
+        .replace(/srcset="([^"]*)"/g, (_, list) => `srcset="${list.replace(new RegExp(`(^|,\\s*)/(?!${esc.slice(1)}/)`, 'g'), `$1${base}/`)}"`);
+      writeFileSync(p, out);
     }
   }
 }

@@ -29,12 +29,16 @@ p{margin:0}
   padding:calc(18px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) 18px max(20px,env(safe-area-inset-left,0px));
   color:var(--white);transition:background .35s ease,color .35s ease,padding .35s ease}
 .site-header.solid{background:var(--plaster);color:var(--ink);border-bottom:1px solid var(--line)}
+/* soft shade behind the white header over photos; it fades away once the header turns solid */
+.site-header::before{content:"";position:absolute;inset:0 0 -70px;z-index:-1;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(24,19,15,.42),rgba(24,19,15,.16) 55%,rgba(24,19,15,0));transition:opacity .35s ease}
+.site-header.solid::before{opacity:0}
 .menu-btn{justify-self:start;background:none;border:0;color:inherit;width:44px;height:44px;padding:0;display:grid;place-content:center;gap:6px;cursor:pointer}
 .menu-btn span{display:block;width:24px;height:1px;background:currentColor}
-.logo{justify-self:center;display:block}
+.logo{justify-self:center;display:block;padding:12px 6px;margin-block:-12px}
 .logo img{height:clamp(15px,1.6vw,22px);width:auto;filter:invert(1);transition:filter .35s ease}
 .site-header.solid .logo img{filter:none}
-.book-link{justify-self:end;font-size:12.5px;letter-spacing:.14em;padding:12px 0;border-bottom:1px solid transparent;opacity:.92}
+.book-link{justify-self:end;font-size:12.5px;letter-spacing:.14em;padding:0;min-height:44px;display:inline-flex;align-items:center;border-bottom:1px solid transparent;opacity:.92}
 .book-link:hover{border-bottom-color:currentColor;opacity:1}
 
 /* Menu: a drawer that slides in from the right over a dimmed page */
@@ -69,6 +73,9 @@ p{margin:0}
 
 /* Hero */
 .hero{position:relative;height:100vh;height:100svh;min-height:540px;overflow:hidden;background:var(--plaster-deep)}
+/* soft shade under the caption so white text reads on light photos */
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:42%;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(24,19,15,.44),rgba(24,19,15,.14) 55%,rgba(24,19,15,0))}
 .hero img{width:100%;height:100%;object-fit:cover;object-position:52% 28%}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity 2s ease}
 .slide.on{opacity:1}
@@ -76,7 +83,7 @@ p{margin:0}
 .hero-pause:hover{opacity:1}
 .hero-pause span{width:9px;height:11px;border-inline:1.5px solid currentColor}
 .hero-pause[aria-pressed="true"] span{width:0;height:0;border:0;border-block:6px solid transparent;border-left:9px solid currentColor}
-.hero-caption{z-index:1}
+.hero-caption{z-index:2}
 .hero-caption{position:absolute;inset:auto 0 max(7vh,40px);text-align:center;color:var(--white);display:flex;flex-direction:column;align-items:center;gap:18px;padding-inline:20px}
 .hero-caption p{font-family:var(--display);font-size:clamp(13px,1.2vw,15px);letter-spacing:.42em}
 .hero-caption a{font-size:13px;letter-spacing:.16em;border-bottom:1px solid rgba(255,255,255,.7);padding-bottom:6px}
@@ -141,10 +148,13 @@ p{margin:0}
 
 footer{border-top:1px solid var(--line);padding-block:44px 28px;padding-left:var(--gutter);padding-right:var(--gutter);display:flex;flex-direction:column;gap:30px}
 .foot-main{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;font-size:12.5px;letter-spacing:.14em}
-.foot-legal{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:11px;letter-spacing:.04em;color:var(--ink-soft);opacity:.8}
+.foot-legal{display:flex;flex-wrap:wrap;gap:0 22px;font-size:11px;letter-spacing:.04em;color:var(--ink-soft);opacity:.8}
 .foot-legal a:hover{color:var(--ink)}
+/* bigger tap areas without changing how the links look */
+.foot-main nav a,.menu-foot a{display:inline-flex;align-items:center;min-height:44px}
+.foot-legal a,.foot-legal span{display:inline-flex;align-items:center;min-height:32px}
 .foot-main img{height:13px;width:auto}
-.foot-main nav{display:flex;flex-wrap:wrap;gap:26px}
+.foot-main nav{display:flex;flex-wrap:wrap;gap:0 26px}
 
 /* Brides */
 .brides{background:var(--plaster-deep);padding-block:clamp(80px,10vw,130px);padding-left:var(--gutter);padding-right:var(--gutter);text-align:center}

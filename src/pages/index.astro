@@ -7,10 +7,10 @@ import BookForm from '../components/BookForm.astro';
   <section class="hero">
     <!-- slides crossfade; a <video> can replace any slide's <img> later -->
     <div class="hero-media" id="heroSlides">
-      <div class="slide on"><img src="/images/front.jpg" alt="שמלת ערב שחורה רקומה חרוזים, באור חלון"></div>
-      <div class="slide"><img src="/images/bloro.jpg" alt="שמלת סטרפלס עם חצאית שקופה רקומה" loading="lazy"></div>
-      <div class="slide"><img src="/images/coral.jpg" alt="שמלת ערב בגוון קורל" loading="lazy"></div>
-      <div class="slide"><img src="/images/back.jpg" alt="גב חשוף בשמלת הולטר רקומה" loading="lazy"></div>
+      <div class="slide on"><img fetchpriority="high" src="/images/front.webp" srcset="/images/front-1000.webp 1000w, /images/front.webp 1600w" sizes="100vw" alt="שמלת ערב שחורה רקומה חרוזים, באור חלון"></div>
+      <div class="slide"><img src="/images/bloro.webp" srcset="/images/bloro-1000.webp 1000w, /images/bloro.webp 1600w" sizes="100vw" alt="שמלת סטרפלס עם חצאית שקופה רקומה" loading="lazy"></div>
+      <div class="slide"><img src="/images/coral.webp" srcset="/images/coral-1000.webp 1000w, /images/coral.webp 1600w" sizes="100vw" alt="שמלת ערב בגוון קורל" loading="lazy"></div>
+      <div class="slide"><img src="/images/back.webp" srcset="/images/back-1000.webp 1000w, /images/back.webp 1600w" sizes="100vw" alt="גב חשוף בשמלת הולטר רקומה" loading="lazy"></div>
     </div>
     <button class="hero-pause" id="heroPause" type="button" aria-label="עצירת החלפת התמונות" aria-pressed="false"><span></span></button>
     <div class="hero-caption">
@@ -27,15 +27,15 @@ import BookForm from '../components/BookForm.astro';
 
   <section class="tiles" id="collections" aria-label="קולקציות">
     <a class="tile" data-reveal="mask" href="/collections/">
-      <img src="/images/bodice.jpg" alt="מחוך שחור מובנה">
+      <img loading="lazy" decoding="async" src="/images/bodice.webp" alt="מחוך שחור מובנה">
       <div class="tile-label"><span>Bridal</span><span>כלה</span></div>
     </a>
     <a class="tile" data-reveal="mask" href="/collections/">
-      <img src="/images/back.jpg" alt="שמלת ערב עם גב חשוף">
+      <img loading="lazy" decoding="async" src="/images/back.webp" srcset="/images/back-1000.webp 1000w, /images/back.webp 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="שמלת ערב עם גב חשוף">
       <div class="tile-label"><span>Evening</span><span>ערב</span></div>
     </a>
     <a class="tile" data-reveal="mask" href="/bespoke/">
-      <img src="/images/bloro.jpg" alt="שמלת סטרפלס עם חצאית שקופה רקומה">
+      <img loading="lazy" decoding="async" src="/images/bloro.webp" srcset="/images/bloro-1000.webp 1000w, /images/bloro.webp 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="שמלת סטרפלס עם חצאית שקופה רקומה">
       <div class="tile-label"><span>Bespoke</span><span>תפירה אישית</span></div>
     </a>
   </section>
@@ -47,7 +47,7 @@ import BookForm from '../components/BookForm.astro';
   </section>
 
   <section class="wide" data-parallax>
-    <img src="/images/back.jpg" alt="גב חשוף בשמלת הולטר רקומה">
+    <img loading="lazy" decoding="async" src="/images/back.webp" srcset="/images/back-1000.webp 1000w, /images/back.webp 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="גב חשוף בשמלת הולטר רקומה">
     <div class="wide-note">
       <p>The Open Back</p>
       <p>רקמת חרוזים שחורה על טול בגוון עור, נבנית שורה אחר שורה.</p>
@@ -60,10 +60,10 @@ import BookForm from '../components/BookForm.astro';
   </section>
 
   <section class="details" aria-label="פרטי עבודת יד">
-    <figure data-reveal="mask"><img src="/images/beading.jpg" alt="רקמת חרוזים בחזית השמלה"><figcaption>Beading</figcaption></figure>
-    <figure data-reveal="mask"><img src="/images/back-detail.jpg" alt="שולי תחרה בגב השמלה"><figcaption>Lace edge</figcaption></figure>
-    <figure data-reveal="mask"><img src="/images/skirt.jpg" alt="חצאית טול עם פרחים תפורים"><figcaption>Tulle &amp; florals</figcaption></figure>
-    <figure data-reveal="mask"><img src="/images/profile.jpg" alt="צווארון הולטר מתחרה"><figcaption>Halter neck</figcaption></figure>
+    <figure data-reveal="mask"><img loading="lazy" decoding="async" src="/images/beading.webp" alt="רקמת חרוזים בחזית השמלה"><figcaption>Beading</figcaption></figure>
+    <figure data-reveal="mask"><img loading="lazy" decoding="async" src="/images/back-detail.webp" alt="שולי תחרה בגב השמלה"><figcaption>Lace edge</figcaption></figure>
+    <figure data-reveal="mask"><img loading="lazy" decoding="async" src="/images/skirt.webp" alt="חצאית טול עם פרחים תפורים"><figcaption>Tulle &amp; florals</figcaption></figure>
+    <figure data-reveal="mask"><img loading="lazy" decoding="async" src="/images/profile.webp" alt="צווארון הולטר מתחרה"><figcaption>Halter neck</figcaption></figure>
   </section>
 
   <section class="process" id="process">
@@ -80,7 +80,7 @@ import BookForm from '../components/BookForm.astro';
   </section>
 
   <section class="about" id="about">
-    <div class="about-media" data-parallax><img src="/images/window.jpg" alt="חלון קשתי ואור על קיר טיח באטלייה"></div>
+    <div class="about-media" data-parallax><img loading="lazy" decoding="async" src="/images/window.webp" alt="חלון קשתי ואור על קיר טיח באטלייה"></div>
     <div class="about-text">
       <p class="eyebrow" style="margin:0">THE DESIGNER</p>
       <h2 data-reveal>האטלייה</h2>
