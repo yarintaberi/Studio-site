@@ -6,7 +6,7 @@
   --ink-soft:#5E554D;
   --line:#D6C9B9;
   --white:#FFFFFF;
-  --display:'Italiana','Didot','Bodoni 72',serif;
+  --display:'amandine','Italiana','Didot',serif; /* Amandine from Adobe Fonts; Italiana as fallback */
   --hebrew:'Bellefair','Frank Ruhl Libre','David',serif;
   --body:'Assistant','Heebo',system-ui,sans-serif;
   --gutter:max(20px, 5vw);
