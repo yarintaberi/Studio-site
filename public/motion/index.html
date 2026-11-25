@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<!-- Motion study (scroll-craft ideas 1-7). Standalone preview page, not linked from the site. -->
+<!-- Motion study (scroll-craft ideas). Standalone preview page, not linked from the site. -->
 <title>Taberi Motion Study</title>
 <link rel="stylesheet" href="https://use.typekit.net/oxe0xsz.css">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -12,8 +12,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Italiana&family=Assistant:wght@200;300;400;500&display=swap">
 <style>
-/* Layout: one long scroll of sticky "stages"; each numbered stage demonstrates one motion idea on the real photos.
-   Single deliberate light look (cream plaster), matching the live site. */
+/* Layout: numbered motion ideas on the real photos. 1 and 2 play by themselves once triggered (no pinning);
+   3 and 7 follow the scroll through a smoothed (lerped) progress value. Single deliberate light look. */
 :root{
   --plaster:#F3ECE3;
   --plaster-2:#ECE2D5;
@@ -26,6 +26,7 @@
   --body:'Assistant','Heebo',system-ui,sans-serif;
   --gut:max(20px,5vw);
   --ease:cubic-bezier(.22,1,.36,1);
+  --open:1.9s;
   color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -37,68 +38,80 @@ h2,h3{text-wrap:balance}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:1px solid currentColor;outline-offset:4px}
 
-/* numbered demo tag, so Yarin can tell which idea she is looking at */
+/* numbered demo tag */
 .tag{position:absolute;z-index:30;top:calc(76px + env(safe-area-inset-top,0px));inset-inline-start:max(16px,env(safe-area-inset-right,0px));
   display:flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border-radius:999px;
   background:rgba(243,236,227,.92);color:var(--ink);font-size:14px;font-weight:400;line-height:1.3;box-shadow:0 6px 20px rgba(42,37,33,.12)}
 .tag b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--plaster);font-weight:500;font-size:13px}
 .tag small{display:block;font-size:12px;color:var(--ink-soft);font-weight:300}
+.tag.inline{position:relative;top:0;inset-inline-start:0;width:max-content;max-width:100%;margin:0 auto 6vh}
 
-/* header, as on the live site */
+/* header */
 .hdr{position:fixed;inset:0 0 auto;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
   padding:calc(16px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) 16px max(20px,env(safe-area-inset-left,0px));
-  color:var(--white);transition:background .4s ease,color .4s ease}
+  color:var(--white);transition:background .5s ease,color .5s ease}
 .hdr.solid{background:var(--plaster);color:var(--ink);border-bottom:1px solid var(--line)}
 .hdr .burger{justify-self:start;display:grid;gap:6px;width:44px;height:44px;place-content:center}
 .hdr .burger span{width:24px;height:1px;background:currentColor;display:block}
-.hdr .mark{justify-self:center;opacity:0;transition:opacity .4s ease}
+.hdr .mark{justify-self:center;opacity:0;transition:opacity .5s ease}
 .hdr.solid .mark{opacity:1}
 .hdr .mark svg{height:16px;width:auto;fill:currentColor;display:block}
 .hdr .book{justify-self:end;font-size:14px;letter-spacing:.04em}
 
-/* every act: a tall section with a sticky stage; JS writes --p (0..1) */
-.act{position:relative;--p:0}
-.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-
-/* 1. layered hero */
-.a1{height:230vh}
-.a1 .back{position:absolute;inset:-6%;background:center/cover no-repeat;
-  transform:translate3d(0,calc(var(--p) * -5%),0) scale(calc(1.12 - var(--p) * .08));will-change:transform}
-.a1 .back::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(24,19,15,.38),rgba(24,19,15,.05) 45%,rgba(24,19,15,.25))}
-.a1 .mid{position:absolute;inset-inline:0;top:19vh;display:grid;justify-items:center;gap:14px;color:var(--white);
-  transform:translate3d(0,calc(var(--p) * -9vh),0);opacity:calc(1 - var(--p) * 1.6)}
+/* 1. layered hero: one screen, no pinning; class .open plays the whole move by itself */
+.a1{position:relative;height:100vh;height:100svh;overflow:hidden;background:#cbb9a6}
+.a1 .back{position:absolute;inset:-4%;background:center/cover no-repeat;transform:scale(1.14);
+  transition:transform calc(var(--open) * 1.3) var(--ease)}
+.a1 .back::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(24,19,15,.40),rgba(24,19,15,.06) 45%,rgba(24,19,15,.22))}
+.a1 .mid{position:absolute;inset-inline:0;top:34vh;display:grid;justify-items:center;gap:14px;color:var(--white);
+  transform:translate3d(0,0,0) scale(1);transform-origin:50% 0;transition:transform var(--open) var(--ease)}
 .a1 .mid svg{width:min(64vw,620px);height:auto;fill:currentColor}
-.a1 .mid p{font-family:var(--display);letter-spacing:.32em;font-size:13px}
-.a1 .front{position:absolute;left:50%;bottom:0;width:min(36vw,440px);aspect-ratio:3/4.4;
-  border-radius:999px 999px 0 0;overflow:hidden;box-shadow:0 -20px 60px rgba(24,19,15,.25);
-  transform:translate3d(-50%,calc((1 - var(--p)) * var(--start,46vh) - 6vh),0) scale(calc(.92 + var(--p) * var(--grow,1.5)));transform-origin:50% 100%;will-change:transform}
-.a1 .front img{width:100%;height:100%;object-fit:cover;transform:scale(calc(1.18 - var(--p) * .18))}
-.a1 .haze{position:absolute;inset:auto 0 0;height:28vh;background:linear-gradient(to top,rgba(243,236,227,.55),rgba(243,236,227,0));
-  transform:translate3d(0,calc(var(--p) * 14vh),0);pointer-events:none}
+.a1 .mid p{font-family:var(--display);letter-spacing:.32em;font-size:13px;transition:opacity calc(var(--open) * .5) ease}
+/* the photo frame has the photo's own ratio, so the end state shows the whole picture */
+.a1 .front{position:absolute;left:50%;bottom:4vh;height:min(70vh, calc(84vw * 1.339));aspect-ratio:1300/1741;
+  clip-path:inset(0 round 50% 50% 0 0 / 34% 34% 0 0);box-shadow:0 30px 70px rgba(24,19,15,.28);
+  transform:translate3d(-50%,64vh,0) scale(.9);transform-origin:50% 100%;
+  transition:transform var(--open) var(--ease),clip-path calc(var(--open) * .9) var(--ease) calc(var(--open) * .45)}
+.a1 .front img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform calc(var(--open) * 1.2) var(--ease)}
+.a1 .haze{position:absolute;inset:auto 0 0;height:30vh;background:linear-gradient(to top,rgba(243,236,227,.5),rgba(243,236,227,0));
+  transition:opacity var(--open) ease}
+.a1.open .back{transform:scale(1.02)}
+.a1.open .mid{transform:translate3d(0,-22vh,0) scale(.62)}
+.a1.open .mid p{opacity:0}
+.a1.open .front{transform:translate3d(-50%,0,0) scale(1);clip-path:inset(0 round 0 0 0 0 / 0 0 0 0)}
+.a1.open .front img{transform:scale(1)}
+.a1.open .haze{opacity:0}
 
-/* 2. turn the dress */
-.a2{height:320vh}
-.a2 .stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:5vw;padding-inline:var(--gut)}
-.a2 .frame{position:relative;height:82vh;aspect-ratio:3/4;max-width:100%;justify-self:center;overflow:hidden}
+/* 2. turn the dress: plays once when the frame is in view */
+.a2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:5vw;padding:14vh var(--gut);position:relative}
+.a2 .frame{position:relative;height:min(82vh,820px);aspect-ratio:1300/1741;max-width:100%;justify-self:center;overflow:hidden}
 .a2 .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.a2 .frame .bk{clip-path:inset(0 0 0 calc((1 - var(--q,0)) * 100%))}
-.a2 .seam{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.85);left:calc((1 - var(--q,0)) * 100%);opacity:calc(var(--q,0) * (1 - var(--q,0)) * 4)}
+.a2 .frame .bk{clip-path:inset(0 0 0 100%);transition:clip-path 1.7s cubic-bezier(.65,0,.25,1)}
+.a2 .seam{position:absolute;top:0;bottom:0;left:100%;width:1px;background:rgba(255,255,255,.9);opacity:0;
+  transition:left 1.7s cubic-bezier(.65,0,.25,1),opacity .5s ease}
+.a2.turned .frame .bk{clip-path:inset(0 0 0 0)}
+.a2.turned .seam{left:0;opacity:0;transition:left 1.7s cubic-bezier(.65,0,.25,1),opacity .4s ease 1.3s}
+.a2.turning .seam{opacity:1}
 .a2 .copy{display:grid;gap:18px;max-width:30ch}
 .a2 .copy .en{font-family:var(--display);font-size:clamp(34px,4.4vw,60px);line-height:1.05;direction:ltr;text-align:right}
 .a2 .side{position:relative;height:1.8em;font-size:15px;letter-spacing:.08em;color:var(--ink-soft)}
-.a2 .side span{position:absolute;inset:0;transition:opacity .5s ease}
+.a2 .side span{position:absolute;inset:0;transition:opacity .8s ease .5s}
 .a2 .side .s2{opacity:0}
-.a2.is-back .side .s1{opacity:0}
-.a2.is-back .side .s2{opacity:1}
+.a2.turned .side .s1{opacity:0}
+.a2.turned .side .s2{opacity:1}
+.a2 .again{justify-self:start;font:inherit;font-size:14px;background:none;border:0;border-bottom:1px solid var(--line);padding:10px 0;min-height:44px;color:var(--ink-soft);cursor:pointer}
+.a2 .tag{top:4vh}
 
-/* 3. pan rail */
-.a3{height:330vh}
+/* 3 and 7: pinned, JS writes a smoothed --p (0..1) */
+.act{position:relative;--p:0}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+
+.a3{height:300vh}
 .a3 .stage{display:grid;align-content:center;gap:36px}
 .a3 .head{padding-inline:var(--gut);display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
 .a3 .head h2{font-size:clamp(26px,3vw,40px);font-weight:200}
 .a3 .head p{font-size:15px;color:var(--ink-soft);max-width:34ch}
-.a3 .rail{display:flex;gap:3vw;padding-inline:var(--gut);width:max-content;
-  transform:translate3d(calc(var(--p) * var(--travel,0px)),0,0);will-change:transform}
+.a3 .rail{display:flex;gap:3vw;padding-inline:var(--gut);width:max-content;will-change:transform;backface-visibility:hidden}
 .a3 figure{margin:0;width:min(28vw,360px);display:grid;gap:12px}
 .a3 figure:nth-child(even){margin-top:8vh}
 .a3 figure .ph{aspect-ratio:4/5;overflow:hidden}
@@ -107,28 +120,9 @@ a{color:inherit;text-decoration:none}
 .a3 figcaption .n{font-family:var(--display);font-size:16px;letter-spacing:.06em;direction:ltr}
 .a3 figcaption .t{color:var(--ink-soft);text-align:left}
 
-/* 4. pinned process */
-.a4{height:420vh}
-.a4 .stage{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
-.a4 .pic{position:relative;overflow:hidden}
-.a4 .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.08 - var(--p) * .08))}
-.a4 .steps{position:relative;display:grid;align-content:center;padding-inline:var(--gut)}
-.a4 .steps h2{font-size:clamp(26px,3vw,40px);font-weight:200;margin-bottom:5vh}
-.a4 ol{list-style:none;margin:0;padding:0;position:relative;min-height:13em}
-.a4 li{position:absolute;inset:0;opacity:0;transform:translate3d(0,24px,0);transition:opacity .7s var(--ease),transform .9s var(--ease)}
-.a4 li.on{opacity:1;transform:none}
-.a4 li .num{font-family:var(--display);font-size:clamp(48px,6vw,84px);line-height:1;color:var(--ink-soft)}
-.a4 li h3{font-size:clamp(22px,2.2vw,30px);font-weight:300;margin-block:14px 8px}
-.a4 li p{max-width:32ch;color:var(--ink-soft)}
-.a4 .bar{display:flex;gap:8px;margin-top:4vh}
-.a4 .bar i{flex:1;height:1px;background:var(--line);position:relative;overflow:hidden}
-.a4 .bar i::after{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform .6s var(--ease)}
-.a4 .bar i.on::after{transform:scaleX(1)}
-
-/* 5 + 6. editorial bands (the ground colour drifts under them) */
+/* 5 + 6 */
 .band{padding-block:20vh;padding-inline:var(--gut);position:relative}
-.band .tag{top:6vh}
-.drift-scale{display:flex;gap:6px;margin-top:28px}
+.drift-scale{display:flex;gap:6px;margin-top:28px;justify-content:center}
 .drift-scale span{width:46px;height:46px;border-radius:50%;border:1px solid var(--line)}
 .ed{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;align-items:start;max-width:1200px;margin-inline:auto}
 .ed .eyebrow{grid-column:1/-1;text-align:center;font-family:var(--display);letter-spacing:.32em;font-size:12px;color:var(--ink-soft);display:none}
@@ -141,49 +135,51 @@ a{color:inherit;text-decoration:none}
 .switch button[aria-pressed="true"]{background:var(--ink);color:var(--plaster)}
 .center{text-align:center}
 .lead{max-width:40ch;margin-inline:auto;text-align:center;font-size:clamp(22px,2.4vw,30px);font-weight:200;line-height:1.5}
-.note{max-width:46ch;margin:18px auto 0;text-align:center;font-size:15px;color:var(--ink-soft)}
 
-/* 7. close that holds */
+/* 7 */
 .a7{height:200vh}
 .a7 .stage{display:grid;place-items:center}
-.a7 .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;transform:scale(calc(1.16 - var(--p) * .16))}
+.a7 .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;will-change:transform}
 .a7 .stage::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 55%,rgba(24,19,15,.42),rgba(24,19,15,0) 75%)}
-.a7 .inv{position:relative;z-index:2;color:var(--white);text-align:center;display:grid;gap:18px;justify-items:center;padding-inline:var(--gut);
-  opacity:calc(var(--p) * 2.2 - .4);transform:translate3d(0,calc((1 - var(--p)) * 5vh),0)}
+.a7 .inv{position:relative;z-index:2;color:var(--white);text-align:center;display:grid;gap:18px;justify-items:center;padding-inline:var(--gut);will-change:transform,opacity}
 .a7 .inv .en{font-family:var(--display);letter-spacing:.32em;font-size:13px}
 .a7 .inv h2{font-size:clamp(32px,4.4vw,58px);font-weight:200;line-height:1.2}
 .a7 .inv a{margin-top:10px;border:1px solid currentColor;padding:12px 34px;min-height:44px;font-size:15px;letter-spacing:.06em}
 .foot{padding:28px var(--gut);display:flex;justify-content:center;gap:28px;font-size:13px;color:var(--ink-soft);flex-wrap:wrap}
 
-/* phones: separate composition, not a shrink */
 @media (max-width:760px){
-  .a1 .mid{top:22vh}
-  .a1 .front{width:68vw;--grow:1.25;--start:22vh}
-  .a2{height:280vh}
-  .a2 .stage{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:16px;align-content:start;padding-top:calc(130px + env(safe-area-inset-top,0px))}
-  .a2 .frame{height:auto;width:100%;max-height:64vh;aspect-ratio:3/4}
+  .a1 .mid{top:36vh}
+  .a1.open .mid{transform:translate3d(0,-21vh,0) scale(.7)}
+  .a1 .front{bottom:7vh}
+  .a2{grid-template-columns:1fr;gap:16px;padding-top:calc(120px + env(safe-area-inset-top,0px))}
+  .a2 .frame{height:auto;width:100%}
   .a2 .copy{order:-1;gap:4px;max-width:none}
   .a2 .copy .en{font-size:30px}
   .a2 .copy .long{display:none}
+  .a2 .tag{top:calc(72px + env(safe-area-inset-top,0px))}
   .a3 figure{width:64vw}
   .a3 .head{padding-top:60px}
-  .a4 .stage{grid-template-columns:1fr;grid-template-rows:44vh 1fr}
-  .a4 .steps{align-content:start;padding-top:28px}
-  .a4 .steps h2{margin-bottom:18px}
-  .a4 ol{min-height:11em}
   .ed h2,.ed p{grid-column:1/-1}
   .ed p{padding-top:0}
   .tag{top:calc(72px + env(safe-area-inset-top,0px))}
 }
 
-/* reduced motion: no pinning, every act shown in its finished state */
+/* wide screens: background plate is soft focus (depth of field), content held to a measure */
+@media (min-width:761px){
+  .a1 .back{filter:blur(5px) saturate(.9)}
+  .a1 .front{height:min(74vh,860px);bottom:5vh}
+  .a1.open .mid{transform:translate3d(0,-21vh,0) scale(.5)}
+  .a2{max-width:1280px;margin-inline:auto;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+  .a2 .copy{justify-self:start}
+  .a3 figure{width:min(24vw,50vh)}
+  .a3 .head{max-width:1280px;margin-inline:auto;width:100%}
+  .a7 .stage img{object-position:50% 22%}
+}
 @media (prefers-reduced-motion: reduce){
-  .act{height:auto!important;--p:1!important;--q:1!important}
+  *{transition:none!important}
+  .act{height:auto!important}
   .stage{position:relative;height:auto;min-height:100vh}
-  .a1 .mid{opacity:1;transform:none}
-  .a4 li{position:relative;opacity:1;transform:none;margin-bottom:28px}
-  .a4 ol{min-height:0}
-  .a3 .rail{width:auto;flex-wrap:wrap;transform:none}
+  .a3 .rail{width:auto;flex-wrap:wrap;transform:none!important}
   .a3 figure{width:min(100%,300px)}
 }
 </style>
@@ -199,30 +195,27 @@ a{color:inherit;text-decoration:none}
 
 <main>
   <!-- 1 -->
-  <section class="act a1" data-act aria-label="פתיחה בשכבות">
-    <div class="stage">
-      <div class="back" style="background-image:url(../images/window.webp)"></div>
-      <div class="mid"><svg role="img" aria-label="YARIN TABERI"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3245.33 535.05"><g ><path d="M134.43,298.07l14.35,27.1L0,129.11h39.85l126.99,167.9-2.13-.53,125.39-167.37h8.5l-146.65,195.53,14.35-27.1v237.5h-31.88v-236.97Z"/><path d="M423.47,142.93l4.78,3.72-170.02,388.4h-7.44l172.68-392.12ZM350.14,315.61h164.18v6.38h-164.18v-6.38ZM412.31,129.11h35.07l181.18,405.93h-35.07l-181.18-405.93Z"/><path d="M676.38,129.11h105.2c64.29,0,115.3,26.04,115.83,87.14.53,68.54-46.23,102.01-175.87,102.01h-12.22l-1.06,216.78h-31.88V129.11ZM724.73,311.89c109.45,0,143.99-36.13,143.46-95.64-.53-52.6-28.69-80.76-92.98-80.76h-66.95l1.06,176.4h15.41ZM857.56,391.59c-24.44-48.35-30.29-73.32-90.33-73.32h-46.23v-6.38h45.16c91.92,0,99.89,30.82,122.74,74.92l76.51,148.24h-34.54l-73.32-143.46Z"/><path d="M1013.23,129.11h31.88v405.93h-31.88V129.11Z"/><path d="M1108.87,129.11h37.72l259.82,363.43,4.78,42.51h-10.1l-292.23-405.93ZM1124.81,129.11h6.38v405.93h-6.38V129.11ZM1404.82,129.11h6.38v405.93h-6.38V129.11Z"/><path d="M1575.91,129.11h285.85v6.38h-285.85v-6.38ZM1702.89,129.11h31.88v405.93h-31.88V129.11Z"/><path d="M2002.03,142.93l4.78,3.72-170.02,388.4h-7.44l172.68-392.12ZM1928.71,315.61h164.18v6.38h-164.18v-6.38ZM1990.87,129.11h35.07l181.18,405.93h-35.07l-181.18-405.93Z"/><path d="M2254.94,129.11h77.57c64.82,0,117.42,18.6,117.42,77.57,0,53.13-55.26,86.07-102.55,87.14v-1.59c87.67-4.25,165.24,34,165.24,113.7,0,83.95-61.1,129.11-163.12,129.11h-94.58V129.11ZM2316.57,290.64c64.82,0,104.14-26.04,104.14-83.95,0-44.1-26.03-71.2-91.92-71.2h-41.97v155.15h29.75ZM2351.11,528.67c79.17,0,128.58-34.54,128.58-122.21,0-72.26-44.63-109.45-145.05-109.45h-47.82v231.66h64.29Z"/><path d="M2577.98,129.11h31.88v405.93h-31.88V129.11ZM2583.3,129.11h216.78v6.38h-216.78v-6.38ZM2583.3,284.26h190.21v6.38h-190.21v-6.38ZM2583.3,528.67h222.09v6.38h-222.09v-6.38ZM2710.28,0h34.54l-74.92,102.01h-3.19L2710.28,0Z"/><path d="M2876.59,129.11h105.2c64.29,0,115.3,26.04,115.83,87.14.53,68.54-46.23,102.01-175.87,102.01h-12.22l-1.06,216.78h-31.88V129.11ZM2924.94,311.89c109.45,0,143.99-36.13,143.46-95.64-.53-52.6-28.69-80.76-92.98-80.76h-66.95l1.06,176.4h15.41ZM3057.77,391.59c-24.44-48.35-30.29-73.32-90.33-73.32h-46.23v-6.38h45.16c91.92,0,99.89,30.82,122.74,74.92l76.51,148.24h-34.54l-73.32-143.46Z"/><path d="M3213.45,129.11h31.88v405.93h-31.88V129.11Z"/></g></svg><p>EVENING &amp; BRIDAL COUTURE</p></div>
-      <div class="front"><img src="../images/front.webp" alt="שמלת ערב שחורה רקומה חרוזים, באור חלון"></div>
-      <div class="haze"></div>
-      <p class="tag"><b>1</b><span>פתיחה בשכבות<small>רקע, לוגו ושמלה זזים בקצב שונה. גללי לאט</small></span></p>
-    </div>
+  <section class="a1" id="hero" aria-label="פתיחה בשכבות">
+    <div class="back" style="background-image:url(../images/window.webp)"></div>
+    <div class="mid"><svg role="img" aria-label="YARIN TABERI"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3245.33 535.05"><g ><path d="M134.43,298.07l14.35,27.1L0,129.11h39.85l126.99,167.9-2.13-.53,125.39-167.37h8.5l-146.65,195.53,14.35-27.1v237.5h-31.88v-236.97Z"/><path d="M423.47,142.93l4.78,3.72-170.02,388.4h-7.44l172.68-392.12ZM350.14,315.61h164.18v6.38h-164.18v-6.38ZM412.31,129.11h35.07l181.18,405.93h-35.07l-181.18-405.93Z"/><path d="M676.38,129.11h105.2c64.29,0,115.3,26.04,115.83,87.14.53,68.54-46.23,102.01-175.87,102.01h-12.22l-1.06,216.78h-31.88V129.11ZM724.73,311.89c109.45,0,143.99-36.13,143.46-95.64-.53-52.6-28.69-80.76-92.98-80.76h-66.95l1.06,176.4h15.41ZM857.56,391.59c-24.44-48.35-30.29-73.32-90.33-73.32h-46.23v-6.38h45.16c91.92,0,99.89,30.82,122.74,74.92l76.51,148.24h-34.54l-73.32-143.46Z"/><path d="M1013.23,129.11h31.88v405.93h-31.88V129.11Z"/><path d="M1108.87,129.11h37.72l259.82,363.43,4.78,42.51h-10.1l-292.23-405.93ZM1124.81,129.11h6.38v405.93h-6.38V129.11ZM1404.82,129.11h6.38v405.93h-6.38V129.11Z"/><path d="M1575.91,129.11h285.85v6.38h-285.85v-6.38ZM1702.89,129.11h31.88v405.93h-31.88V129.11Z"/><path d="M2002.03,142.93l4.78,3.72-170.02,388.4h-7.44l172.68-392.12ZM1928.71,315.61h164.18v6.38h-164.18v-6.38ZM1990.87,129.11h35.07l181.18,405.93h-35.07l-181.18-405.93Z"/><path d="M2254.94,129.11h77.57c64.82,0,117.42,18.6,117.42,77.57,0,53.13-55.26,86.07-102.55,87.14v-1.59c87.67-4.25,165.24,34,165.24,113.7,0,83.95-61.1,129.11-163.12,129.11h-94.58V129.11ZM2316.57,290.64c64.82,0,104.14-26.04,104.14-83.95,0-44.1-26.03-71.2-91.92-71.2h-41.97v155.15h29.75ZM2351.11,528.67c79.17,0,128.58-34.54,128.58-122.21,0-72.26-44.63-109.45-145.05-109.45h-47.82v231.66h64.29Z"/><path d="M2577.98,129.11h31.88v405.93h-31.88V129.11ZM2583.3,129.11h216.78v6.38h-216.78v-6.38ZM2583.3,284.26h190.21v6.38h-190.21v-6.38ZM2583.3,528.67h222.09v6.38h-222.09v-6.38ZM2710.28,0h34.54l-74.92,102.01h-3.19L2710.28,0Z"/><path d="M2876.59,129.11h105.2c64.29,0,115.3,26.04,115.83,87.14.53,68.54-46.23,102.01-175.87,102.01h-12.22l-1.06,216.78h-31.88V129.11ZM2924.94,311.89c109.45,0,143.99-36.13,143.46-95.64-.53-52.6-28.69-80.76-92.98-80.76h-66.95l1.06,176.4h15.41ZM3057.77,391.59c-24.44-48.35-30.29-73.32-90.33-73.32h-46.23v-6.38h45.16c91.92,0,99.89,30.82,122.74,74.92l76.51,148.24h-34.54l-73.32-143.46Z"/><path d="M3213.45,129.11h31.88v405.93h-31.88V129.11Z"/></g></svg><p>EVENING &amp; BRIDAL COUTURE</p></div>
+    <div class="front"><img src="../images/front.webp" alt="שמלת ערב שחורה רקומה חרוזים, באור חלון"></div>
+    <div class="haze"></div>
+    <p class="tag"><b>1</b><span>פתיחה בשכבות<small>גלילה קטנה אחת, והתמונה נפתחת לבד</small></span></p>
   </section>
 
   <!-- 2 -->
-  <section class="act a2" data-act id="turn" aria-label="סיבוב השמלה">
-    <div class="stage">
-      <p class="tag"><b>2</b><span>סיבוב השמלה<small>הגלילה מגלה את הגב</small></span></p>
-      <div class="frame">
-        <img src="../images/front.webp" alt="השמלה מלפנים">
-        <img class="bk" src="../images/back.webp" alt="אותה שמלה מאחור, גב חשוף">
-        <i class="seam"></i>
-      </div>
-      <div class="copy">
-        <p class="side"><span class="s1">מלפנים</span><span class="s2">מאחור</span></p>
-        <h2 class="en">The Open Back</h2>
-        <p class="long">רקמת חרוזים שחורה על טול בגוון עור, נבנית שורה אחר שורה.</p>
-      </div>
+  <section class="a2" id="turn" aria-label="סיבוב השמלה">
+    <p class="tag"><b>2</b><span>סיבוב השמלה<small>הגב מתגלה לבד כשהתמונה במסך</small></span></p>
+    <div class="frame">
+      <img src="../images/front.webp" alt="השמלה מלפנים">
+      <img class="bk" src="../images/back.webp" alt="אותה שמלה מאחור, גב חשוף">
+      <i class="seam"></i>
+    </div>
+    <div class="copy">
+      <p class="side"><span class="s1">מלפנים</span><span class="s2">מאחור</span></p>
+      <h2 class="en">The Open Back</h2>
+      <p class="long">רקמת חרוזים שחורה על טול בגוון עור, נבנית שורה אחר שורה.</p>
+      <button class="again" type="button" id="again">לראות שוב</button>
     </div>
   </section>
 
@@ -244,51 +237,33 @@ a{color:inherit;text-decoration:none}
     </div>
   </section>
 
-  <!-- 4 -->
-  <section class="act a4" data-act aria-label="הדרך לשמלה שלך">
-    <div class="stage">
-      <p class="tag"><b>4</b><span>תהליך שנעצר<small>התמונה נשארת, השלבים מתחלפים</small></span></p>
-      <div class="pic"><img src="../images/bloro.webp" alt="שמלת סטרפלס עם חצאית שקופה רקומה"></div>
-      <div class="steps">
-        <h2>הדרך לשמלה שלך</h2>
-        <ol id="steps">
-          <li class="on"><p class="num">I</p><h3>פגישת היכרות</h3><p>נכיר, נדבר על האירוע, על הסגנון שלך ועל מה שאת מדמיינת.</p></li>
-          <li><p class="num">II</p><h3>סקיצה ובדים</h3><p>עיצוב אישי, בחירת בדים, תחרות ורקמות מתוך הספרייה של האטלייה.</p></li>
-          <li><p class="num">III</p><h3>מדידות</h3><p>השמלה נבנית ומתדייקת על הגוף שלך, מדידה אחר מדידה.</p></li>
-          <li><p class="num">IV</p><h3>מסירה</h3><p>השמלה מוכנה, מגוהצת וארוזה, ואת מוכנה לרגע שלך.</p></li>
-        </ol>
-        <div class="bar" id="bar"><i class="on"></i><i></i><i></i><i></i></div>
-      </div>
-    </div>
-  </section>
-
   <!-- 5 -->
   <section class="band" data-drift="#E4D5C2" aria-label="רקע שזז">
-    <p class="tag" style="position:relative;top:0;inset-inline-start:0;width:max-content;margin:0 auto 6vh"><b>5</b><span>רקע שמשנה גוון<small>לאורך כל הדף, בלי שמרגישים</small></span></p>
+    <p class="tag inline"><b>5</b><span>רקע שמשנה גוון<small>לאורך כל הדף, בלי שמרגישים</small></span></p>
     <p class="lead">עכשיו הרקע בגוון חול חם. בראש הדף הוא היה קרם בהיר, ובקטע הבא הוא יחזור לטיח.</p>
-    <div class="drift-scale" style="justify-content:center"><span style="background:#F3ECE3"></span><span style="background:#ECE2D5"></span><span style="background:#E4D5C2"></span><span style="background:#ECE2D5"></span></div>
+    <div class="drift-scale"><span style="background:#F3ECE3"></span><span style="background:#ECE2D5"></span><span style="background:#E4D5C2"></span><span style="background:#ECE2D5"></span></div>
   </section>
 
   <!-- 6 -->
-  <section class="band" data-drift="#ECE2D5" aria-label="פחות כותרות קטנות">
-    <p class="tag" style="position:relative;top:0;inset-inline-start:0;width:max-content;margin:0 auto 6vh"><b>6</b><span>פחות כותרות קטנות, פחות מרכוז<small>החליפי בין לפני ואחרי</small></span></p>
+  <section class="band" data-drift="#ECE2D5" aria-label="כותרות בצד או באמצע">
+    <p class="tag inline"><b>6</b><span>כותרת בצד או באמצע<small>החליפי בין שתי האפשרויות</small></span></p>
     <div class="ed" id="ed">
       <p class="eyebrow">THE ATELIER</p>
       <h2>שמלות ערב וכלה בתפירה אישית, נבנות על הגוף שלך.</h2>
       <p>כל שמלה מתחילה בשיחה ונגמרת במדידה האחרונה. בדים נבחרים, רקמות בעבודת יד וגזרה שנבנית במיוחד עבורך, כך שאין שתי שמלות זהות.</p>
     </div>
     <div class="center"><div class="switch" role="group" aria-label="השוואה">
-      <button type="button" id="bAfter" aria-pressed="true">אחרי</button>
-      <button type="button" id="bBefore" aria-pressed="false">לפני (כמו היום)</button>
+      <button type="button" id="bAfter" aria-pressed="true">בצד</button>
+      <button type="button" id="bBefore" aria-pressed="false">באמצע (כמו היום)</button>
     </div></div>
   </section>
 
   <!-- 7 -->
   <section class="act a7" data-act id="close" data-drift="#F3ECE3" aria-label="סיום">
     <div class="stage">
-      <img src="../images/coral.webp" alt="שמלת ערב בגוון קורל">
+      <img id="closeImg" src="../images/coral.webp" alt="שמלת ערב בגוון קורל">
       <p class="tag"><b>7</b><span>סיום שנעצר<small>התמונה נרגעת וההזמנה נשארת</small></span></p>
-      <div class="inv">
+      <div class="inv" id="inv">
         <p class="en">BY APPOINTMENT</p>
         <h2>פגישה פרטית באטלייה</h2>
         <a href="#close">קביעת פגישה</a>
@@ -301,68 +276,87 @@ a{color:inherit;text-decoration:none}
 <script>
 (function(){
   var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var acts = [].slice.call(document.querySelectorAll('[data-act]'));
   var hdr = document.getElementById('hdr');
-  var a2 = document.querySelector('.a2');
-  var rail = document.getElementById('rail');
-  var a3 = document.querySelector('.a3');
-  var steps = [].slice.call(document.querySelectorAll('#steps li'));
-  var bars = [].slice.call(document.querySelectorAll('#bar i'));
-  var a4 = document.querySelector('.a4');
-  var curStep = 0, ticking = false;
+  var hero = document.getElementById('hero');
+  var a2 = document.getElementById('turn');
+  var a3 = document.querySelector('.a3'), rail = document.getElementById('rail');
+  var a7 = document.getElementById('close'), closeImg = document.getElementById('closeImg'), inv = document.getElementById('inv');
+  function clamp(v){ return Math.max(0, Math.min(1, v)); }
 
-  // background drift: colour stops anchored to sections
-  var stops = [{el:document.querySelector('.a1'),c:'#F3ECE3'},{el:a4,c:'#ECE2D5'}]
-    .concat([].slice.call(document.querySelectorAll('[data-drift]')).map(function(el){return {el:el,c:el.dataset.drift};}));
-  stops.sort(function(a,b){return a.el.offsetTop-b.el.offsetTop;});
-  function hex(c){return [1,3,5].map(function(i){return parseInt(c.substr(i,2),16);});}
-  function clamp(v){return Math.max(0,Math.min(1,v));}
+  /* 1: the first sign of scrolling opens the hero; it then plays to the end on its own */
+  function openHero(){ if (!hero.classList.contains('open')) hero.classList.add('open'); }
+  if (calm) openHero();
+  addEventListener('wheel', function(e){ if (e.deltaY > 0) openHero(); }, {passive:true});
+  var ty = null;
+  addEventListener('touchstart', function(e){ ty = e.touches[0].clientY; }, {passive:true});
+  addEventListener('touchmove', function(e){ if (ty !== null && ty - e.touches[0].clientY > 6) openHero(); }, {passive:true});
+  addEventListener('keydown', function(e){ if (['ArrowDown','PageDown',' ','End'].indexOf(e.key) > -1) openHero(); });
 
-  function measure(){
-    if (rail) a3.style.setProperty('--travel', Math.max(0, rail.scrollWidth - innerWidth) + 'px');
+  /* 2: plays once when most of the frame is on screen */
+  function turn(){
+    a2.classList.add('turning'); a2.classList.add('turned');
+    setTimeout(function(){ a2.classList.remove('turning'); }, 1700);
   }
-  function frame(){
-    ticking = false;
-    var vh = innerHeight, y = scrollY;
-    hdr.classList.toggle('solid', y > vh * .9 && y < document.getElementById('close').offsetTop - 10);
-    if (calm) return;
-    acts.forEach(function(el){
-      var r = el.getBoundingClientRect();
-      if (r.bottom < -vh || r.top > vh * 2) return;
-      var p = clamp(-r.top / Math.max(1, r.height - vh));
-      el.style.setProperty('--p', p.toFixed(4));
-      if (el === a2){
-        var q = clamp((p - .18) / .6);
-        el.style.setProperty('--q', q.toFixed(4));
-        el.classList.toggle('is-back', q > .5);
-      }
-      if (el === a4){
-        var s = Math.min(steps.length - 1, Math.floor(p * steps.length * .999));
-        if (s !== curStep){
-          curStep = s;
-          steps.forEach(function(li,i){li.classList.toggle('on', i === s);});
-          bars.forEach(function(b,i){b.classList.toggle('on', i <= s);});
-        }
-      }
-    });
-    // ground colour: interpolate between the two nearest stops
-    var mid = y + vh / 2, a = stops[0], b = stops[stops.length - 1];
+  if (calm) a2.classList.add('turned');
+  else if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ turn(); io.disconnect(); } });
+    }, {threshold:.55});
+    io.observe(a2.querySelector('.frame'));
+  } else a2.classList.add('turned');
+  document.getElementById('again').addEventListener('click', function(){
+    a2.classList.remove('turned');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ setTimeout(turn, 350); }); });
+  });
+
+  /* 3 + 7: progress eases toward the scroll position every frame, so wheel steps glide */
+  var travel = 0, p3 = 0, p7 = 0;
+  function measure(){ travel = Math.max(0, rail.scrollWidth - innerWidth); }
+  function target(el){
+    var r = el.getBoundingClientRect();
+    return clamp(-r.top / Math.max(1, r.height - innerHeight));
+  }
+
+  /* 5: ground colour stops */
+  var stops = [{el:hero,c:'#F3ECE3'},{el:a3,c:'#ECE2D5'}]
+    .concat([].slice.call(document.querySelectorAll('[data-drift]')).map(function(el){ return {el:el,c:el.dataset.drift}; }));
+  stops.sort(function(a,b){ return a.el.offsetTop - b.el.offsetTop; });
+  function hex(c){ return [1,3,5].map(function(i){ return parseInt(c.substr(i,2),16); }); }
+  function drift(){
+    var vh = innerHeight, mid = scrollY + vh / 2, a = stops[0], b = stops[stops.length-1];
     for (var i = 0; i < stops.length - 1; i++){
-      var t0 = stops[i].el.offsetTop + vh / 2, t1 = stops[i+1].el.offsetTop + vh / 2;
+      var t0 = stops[i].el.offsetTop + vh/2, t1 = stops[i+1].el.offsetTop + vh/2;
       if (mid >= t0 && mid <= t1){ a = stops[i]; b = stops[i+1]; break; }
     }
-    var ta = a.el.offsetTop + vh / 2, tb = b.el.offsetTop + vh / 2;
-    var t = tb > ta ? clamp((mid - ta) / (tb - ta)) : 0;
-    var ca = hex(a.c), cb = hex(b.c);
-    document.body.style.backgroundColor = 'rgb(' + ca.map(function(v,k){return Math.round(v + (cb[k] - v) * t);}).join(',') + ')';
+    var ta = a.el.offsetTop + vh/2, tb = b.el.offsetTop + vh/2;
+    var t = tb > ta ? clamp((mid - ta) / (tb - ta)) : 0, ca = hex(a.c), cb = hex(b.c);
+    document.body.style.backgroundColor = 'rgb(' + ca.map(function(v,k){ return Math.round(v + (cb[k]-v)*t); }).join(',') + ')';
   }
-  function go(){ if (!ticking){ ticking = true; requestAnimationFrame(frame); } }
-  addEventListener('scroll', go, {passive:true});
-  addEventListener('resize', function(){ measure(); go(); });
-  addEventListener('load', function(){ measure(); go(); });
-  measure(); frame();
 
-  // 6: before / after toggle
+  var lastY = -1;
+  function loop(){
+    var y = scrollY;
+    if (y > 2) openHero();
+    hdr.classList.toggle('solid', y > innerHeight * .9 && y < a7.offsetTop - 10);
+    if (!calm){
+      var t3 = target(a3), t7 = target(a7);
+      p3 += (t3 - p3) * .1; if (Math.abs(t3 - p3) < .0004) p3 = t3;
+      p7 += (t7 - p7) * .1; if (Math.abs(t7 - p7) < .0004) p7 = t7;
+      rail.style.transform = 'translate3d(' + (p3 * travel).toFixed(2) + 'px,0,0)';
+      closeImg.style.transform = 'scale(' + (1.16 - p7 * .16).toFixed(4) + ')';
+      var o = clamp(p7 * 2.2 - .4);
+      inv.style.opacity = o.toFixed(3);
+      inv.style.transform = 'translate3d(0,' + ((1 - clamp(p7 * 1.6)) * 5).toFixed(2) + 'vh,0)';
+    }
+    if (y !== lastY){ drift(); lastY = y; }
+    requestAnimationFrame(loop);
+  }
+  addEventListener('resize', measure);
+  addEventListener('load', measure);
+  measure();
+  requestAnimationFrame(loop);
+
+  /* 6 */
   var ed = document.getElementById('ed'), bA = document.getElementById('bAfter'), bB = document.getElementById('bBefore');
   function setMode(before){ ed.classList.toggle('before', before); bA.setAttribute('aria-pressed', String(!before)); bB.setAttribute('aria-pressed', String(before)); }
   bA.addEventListener('click', function(){ setMode(false); });
