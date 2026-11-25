@@ -52,7 +52,7 @@ a{color:inherit;text-decoration:none}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 
 /* hero: the photo rises in front of the logo and stops with the whole picture in view */
-.a1{height:175vh}
+.a1{height:160vh}
 .a1 .stage{background:#cbb9a6}
 .a1 .back{position:absolute;inset:-4%;background:center/cover no-repeat;will-change:transform}
 .a1 .back::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(24,19,15,.40),rgba(24,19,15,.06) 45%,rgba(24,19,15,.22))}
@@ -61,17 +61,18 @@ a{color:inherit;text-decoration:none}
 .a1 .mid p{font-family:var(--display);letter-spacing:.32em;font-size:13px}
 /* frame keeps the photo's own ratio; JS sets its rise, scale and arch */
 .a1 .front{position:absolute;left:50%;bottom:3vh;height:80vh;aspect-ratio:1300/1741;max-width:94vw;
-  box-shadow:0 30px 70px rgba(24,19,15,.28);transform-origin:50% 100%;will-change:transform,clip-path}
+  box-shadow:0 30px 70px rgba(24,19,15,.28);transform-origin:50% 100%;will-change:transform;
+  border-radius:9999px 9999px 0 0;overflow:hidden; /* one true arch, like the atelier windows; it never changes shape */}
 .a1 .front img{width:100%;height:100%;object-fit:cover;will-change:transform}
 
 /* intro text */
-.intro{padding:12vh var(--gut) 8vh}
+.intro{padding:10vh var(--gut) 6vh}
 .ed{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;align-items:start;max-width:1200px;margin-inline:auto}
 .ed h2{grid-column:1/8;font-size:clamp(30px,4vw,54px);font-weight:200;line-height:1.25}
 .ed p{grid-column:8/13;padding-top:1.2em;color:var(--ink-soft);max-width:36ch}
 
 /* the back reveal: no pin; a short stretch of scroll wipes front to back */
-.a2{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:5vw;padding:4vh var(--gut) 8vh;max-width:1280px;margin-inline:auto}
+.a2{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:5vw;padding:2vh var(--gut) 0;max-width:1280px;margin-inline:auto}
 .a2 .frame{position:relative;height:min(84vh,860px);aspect-ratio:1300/1741;max-width:100%;justify-self:center;overflow:hidden}
 .a2 .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .a2 .frame .bk{clip-path:inset(0 0 0 100%);will-change:clip-path}
@@ -85,8 +86,8 @@ a{color:inherit;text-decoration:none}
 .a2.is-back .side .s2{opacity:1}
 
 /* handwork rail */
-.a3{height:240vh}
-.a3 .stage{display:grid;align-content:center;gap:32px}
+.a3{height:230vh}
+.a3 .stage{display:grid;align-content:start;gap:28px;padding-top:calc(13vh + env(safe-area-inset-top,0px))}
 .a3 .head{padding-inline:var(--gut);display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;max-width:1280px;margin-inline:auto;width:100%}
 .a3 .head h2{font-size:clamp(26px,3vw,40px);font-weight:200}
 .a3 .head p{font-size:15px;color:var(--ink-soft);max-width:34ch}
@@ -112,6 +113,8 @@ a{color:inherit;text-decoration:none}
 
 @media (min-width:761px){
   .a1 .back{filter:blur(5px) saturate(.9)}
+  .a1 .mid{top:29vh;transform-origin:50% 0}
+  .a1 .front{height:68vh}
 }
 @media (max-width:760px){
   .a1 .mid{top:23vh}
@@ -119,12 +122,13 @@ a{color:inherit;text-decoration:none}
   .intro{padding:9vh var(--gut) 5vh}
   .ed h2,.ed p{grid-column:1/-1}
   .ed p{padding-top:0}
-  .a2{grid-template-columns:1fr;gap:14px;padding:3vh var(--gut) 6vh}
+  .a2{grid-template-columns:1fr;gap:14px;padding:2vh var(--gut) 0}
   .a2 .frame{height:auto;width:100%}
   .a2 .copy{order:-1;gap:4px;max-width:none}
   .a2 .copy .en{font-size:30px}
   .a2 .copy .long{display:none}
-  .a3{height:220vh}
+  .a3{height:210vh}
+  .a3 .stage{padding-top:calc(96px + env(safe-area-inset-top,0px))}
   .a3 figure{width:64vw}
 }
 @media (prefers-reduced-motion: reduce){
@@ -217,6 +221,11 @@ a{color:inherit;text-decoration:none}
     var r = el.getBoundingClientRect(), span = Math.max(1, r.height - innerHeight);
     return clamp(-r.top / (span * (1 - hold)));
   }
+  // progress from the moment the section's top enters the screen until it has scrolled through
+  function enter(el){
+    var r = el.getBoundingClientRect();
+    return clamp((innerHeight - r.top) / r.height);
+  }
   var cur = {h:0, t:0, r:0, c:0}, travel = 0;
   function measure(){ travel = Math.max(0, rail.scrollWidth - innerWidth); }
 
@@ -224,11 +233,11 @@ a{color:inherit;text-decoration:none}
     var fr = tFrame.getBoundingClientRect(), vh = innerHeight;
     var center = fr.top + fr.height / 2;
     return {
-      h: pinned(hero, .25),
+      h: pinned(hero, .12),
       // the wipe runs while the frame's centre travels from just below the fold to 62% of the screen
       t: clamp((vh * 1.02 - center) / (vh * .40)),
-      r: pinned(a3, 0),
-      c: pinned(a7, .2)
+      r: enter(a3),
+      c: enter(a7)
     };
   }
 
@@ -236,12 +245,12 @@ a{color:inherit;text-decoration:none}
     var phone = innerWidth <= 760;
     var h = ease(cur.h);
     hBack.style.transform = 'scale(' + (1.12 - h * .08).toFixed(4) + ')';
-    hMid.style.transform = 'translate3d(0,' + (-h * 4).toFixed(2) + 'vh,0)';
-    var rise = (phone ? 42 : 58) * (1 - h);
+    // the logo rises with the photo and settles just above it, never hidden behind it
+    hMid.style.transform = phone ? 'translate3d(0,' + (-h * 4).toFixed(2) + 'vh,0)'
+      : 'translate3d(0,' + (-h * 17).toFixed(2) + 'vh,0) scale(' + (1 - h * .2).toFixed(4) + ')';
+    var rise = (phone ? 42 : 47) * (1 - h);
     var sc = (phone ? .86 : .8) + h * (phone ? .14 : .2);
     hFront.style.transform = 'translate3d(-50%,' + rise.toFixed(2) + 'vh,0) scale(' + sc.toFixed(4) + ')';
-    var ry = (34 - h * 22).toFixed(2);
-    hFront.style.clipPath = 'inset(0 round 50% 50% 0 0 / ' + ry + '% ' + ry + '% 0 0)';
     hImg.style.transform = 'scale(' + (1.14 - h * .14).toFixed(4) + ')';
 
     var t = ease(cur.t);
@@ -253,9 +262,10 @@ a{color:inherit;text-decoration:none}
     rail.style.transform = 'translate3d(' + (cur.r * travel).toFixed(2) + 'px,0,0)';
 
     var c = cur.c;
-    closeImg.style.transform = 'scale(' + (1.14 - ease(c) * .14).toFixed(4) + ')';
-    inv.style.opacity = clamp(c * 2 - .3).toFixed(3);
-    inv.style.transform = 'translate3d(0,' + ((1 - clamp(c * 1.5)) * 5).toFixed(2) + 'vh,0)';
+    closeImg.style.transform = 'scale(' + (1.14 - c * .14).toFixed(4) + ')';
+    var o = clamp((c - .22) / .38);
+    inv.style.opacity = o.toFixed(3);
+    inv.style.transform = 'translate3d(0,' + ((1 - ease(o)) * 4).toFixed(2) + 'vh,0)';
   }
 
   // ground colour drifts between section stops
@@ -276,7 +286,7 @@ a{color:inherit;text-decoration:none}
   function loop(){
     var y = scrollY;
     hdr.classList.toggle('solid', y > hero.offsetHeight - 80 && y < a7.offsetTop - 10);
-    var tg = targets(), k = calm ? 1 : .12;
+    var tg = targets(), k = calm ? 1 : .1;
     for (var key in cur){
       cur[key] += (tg[key] - cur[key]) * k;
       if (Math.abs(tg[key] - cur[key]) < .0005) cur[key] = tg[key];
